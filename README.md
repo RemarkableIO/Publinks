@@ -1,6 +1,6 @@
 # Publinks!
 
-Publinks is a stupid implementation of the publish-subscribe pattern in Swift, for when ReactiveCocoa is just a bit too heavy.
+Publinks is a dead simple implementation of the publish-subscribe pattern in Swift, for those times when ReactiveCocoa is just a bit too heavy.
 
 # Example
 
