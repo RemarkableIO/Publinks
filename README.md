@@ -6,11 +6,10 @@ Publinks is a stupid implementation of the publish-subscribe pattern in Swift, f
 
 Publinks can be used anywhere, but I like to use them on ViewModels to be able to tell Views when to update:
 
+Our `viewModel` holds the publink, to which our table view cell will subscribe. Our `viewModel` holds a reference to the `model`. Once this model has been set, we want to format data and publish the `viewModel` to publink subscribers.
 ```
 class ViewModel {
   var publink = Publink()
-
-  ... // Formatted data properties
 
   var model: Model {
     didSet {
@@ -19,7 +18,10 @@ class ViewModel {
     }
   }
 }
+```
 
+`myTableViewCell` holds a reference to the `viewModel`. As soon as this `viewModel` is set, we will subscribe to its publink, setting the values of out text label in the subscription block.
+```
 class myTableViewCell: UITableViewCell {
   var viewModel: ViewModel! {
     willSet {
@@ -32,10 +34,7 @@ class myTableViewCell: UITableViewCell {
           self.textLabel.text = newNoteViewModel.text
         }
 
-      }
-
-    }
+      } // subscribe
+    } // willSet
   }
-
-  ...
 }
