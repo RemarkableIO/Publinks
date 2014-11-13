@@ -6,7 +6,7 @@ Publinks is a dead simple implementation of the publish-subscribe pattern in Swi
 
 Publinks can be used anywhere, but I like to use them on ViewModels to be able to tell Views when to update:
 
-Our `ViewModel` holds the publink to `MyTableViewCell cell will subscribe. Our `ViewModel` holds a reference to the `Model`. Once this model has been set, we want to format data and publish the `ViewModel` to publink subscribers.
+Our `ViewModel` holds the publink to `MyTableViewCell` cell will subscribe. Our `ViewModel` holds a reference to the `Model`. Once this model has been set, we want to format data and publish the `ViewModel` to publink subscribers.
 ```
 class ViewModel {
   var publink = Publink()
