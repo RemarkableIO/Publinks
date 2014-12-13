@@ -5,14 +5,14 @@
 //  Copyright (c) 2014 Giles Van Gruisen. All rights reserved.
 //
 
-/** A block that accepts an optional value as an argument */
-typealias SubscriptionBlock = (Any?) -> ()
-
 /** Link objects with a publisher-subscription relationship */
-class Publink {
+struct Publink<T> {
+
+    /** A block that accepts an optional value as an argument */
+    typealias SubscriptionBlock = (T?) -> ()
 
     /** Subscription blocks to be called with optional value on `publish(subscriptionBlock)` */
-    var subscriptionBlocks: [SubscriptionBlock] {
+    var subscriptionBlocks: [SubscriptionBlock] = [SubscriptionBlock]() {
         didSet {
             updateAllSubscriptionBlocks()
         }
@@ -21,8 +21,8 @@ class Publink {
     /** Named subscription blocks to be called with optional value  on `publish(subscriptionBlock)` */
     var namedSubscriptionBlocks = [String: SubscriptionBlock]()
 
-    /** The last value passed to `publish(value: Any?)`, to be passed to a block upon subscription if `callsLast` is set to true */
-    var lastValue: Any?
+    /** The last value passed to `publish(value: T?)`, to be passed to a block upon subscription if `callsLast` is set to true */
+    var lastValue: T?
 
     /** If set to true, blocks will be called with lastValue immediately upon subscription. Default value is true */
     var callsLast = true
@@ -39,24 +39,19 @@ class Publink {
         allSubscriptionBlocks = subscriptionBlocks
     }
 
-    /** Initializes a Publink with an empty subscriptions array */
-    convenience init() {
-        self.init(newSubscriptionBlocks: [])
-    }
-
-    /** Called by subscriber, passing a SubscriptionBlock to be called with an optional value when publish(value: Any?) is called */
-    func subscribe(newSubscriptionBlock: SubscriptionBlock) {
+    /** Called by subscriber, passing a SubscriptionBlock to be called with an optional value when publish(value: T?) is called */
+    mutating func subscribe(newSubscriptionBlock: SubscriptionBlock) {
 
         // Add subscription block
-        subscriptionBlocks += [newSubscriptionBlock]
+        subscriptionBlocks.append(newSubscriptionBlock)
 
         // Try to call with last value
         callLast(newSubscriptionBlock)
 
     }
 
-    /** Called by subscriber, passing a SubscriptionBlock to be called with an optional value when publish(value: Any?) is called */
-    func subscribeNamed(name: String, newSubscriptionBlock: SubscriptionBlock) {
+    /** Called by subscriber, passing a SubscriptionBlock to be called with an optional value when publish(value: T?) is called */
+    mutating func subscribeNamed(name: String, newSubscriptionBlock: SubscriptionBlock) {
 
         // Add subscription block
         namedSubscriptionBlocks[name] = newSubscriptionBlock
@@ -70,13 +65,13 @@ class Publink {
     }
 
     /** Call to unsubscribe a particular subscription block */
-    func unsubscribe(name: String) {
+    mutating func unsubscribe(name: String) {
         namedSubscriptionBlocks[name] = nil
         updateAllSubscriptionBlocks()
     }
 
     /** Called by publisher with optional value. Calls every block in subscriptionBlocks */
-    func publish(value: Any?) {
+    mutating func publish(value: T) {
 
         // Increment publishCount
         publishCount += 1
@@ -91,7 +86,7 @@ class Publink {
 
     }
 
-    private func updateAllSubscriptionBlocks() {
+    private mutating func updateAllSubscriptionBlocks() {
 
         // Update all blocks to subscription blocks
         allSubscriptionBlocks = subscriptionBlocks
