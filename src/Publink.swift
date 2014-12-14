@@ -12,7 +12,7 @@ struct Publink<T> {
     typealias SubscriptionBlock = (T?) -> ()
 
     /** Subscription blocks to be called with optional value on `publish(subscriptionBlock)` */
-    var subscriptionBlocks: [SubscriptionBlock] = [SubscriptionBlock]() {
+    var subscriptionBlocks: [SubscriptionBlock] {
         didSet {
             updateAllSubscriptionBlocks()
         }
@@ -20,6 +20,9 @@ struct Publink<T> {
 
     /** Named subscription blocks to be called with optional value  on `publish(subscriptionBlock)` */
     var namedSubscriptionBlocks = [String: SubscriptionBlock]()
+
+    /** A collection of all subscription blocks */
+    private var allSubscriptionBlocks = [SubscriptionBlock]()
 
     /** The last value passed to `publish(value: T?)`, to be passed to a block upon subscription if `callsLast` is set to true */
     var lastValue: T?
@@ -30,13 +33,9 @@ struct Publink<T> {
     /** The number of times publish has been called */
     private var publishCount = 0
 
-    /** A collection of all subscription blocks */
-    private var allSubscriptionBlocks: [SubscriptionBlock]
-
     /** Initializes a Publink with any number of subscription blocks */
-    init(newSubscriptionBlocks: [SubscriptionBlock]) {
-        subscriptionBlocks = newSubscriptionBlocks
-        allSubscriptionBlocks = subscriptionBlocks
+    init() {
+        subscriptionBlocks = []
     }
 
     /** Called by subscriber, passing a SubscriptionBlock to be called with an optional value when publish(value: T?) is called */
