@@ -5,41 +5,41 @@
 //  Copyright (c) 2014 Giles Van Gruisen. All rights reserved.
 //
 
-/** Link objects with a publisher-subscription relationship */
-struct Publink<T> {
+/** Performs subscription blocks with a value upon calling `publish(value: T)` with value of the type set upon initialization. */
+public class Publink<ParameterType> {
 
-    /** A block that accepts an optional value as an argument */
-    typealias SubscriptionBlock = (T?) -> ()
+    /** A block that accepts a value as an argument */
+    typealias SubscriptionBlock = (ParameterType) -> ()
 
-    /** Subscription blocks to be called with optional value on `publish(subscriptionBlock)` */
-    var subscriptionBlocks: [SubscriptionBlock] {
+    /** Subscription blocks to be called with optional value on `publish(value: T)` */
+    private var subscriptionBlocks: [SubscriptionBlock] {
         didSet {
             updateAllSubscriptionBlocks()
         }
     }
 
-    /** Named subscription blocks to be called with optional value  on `publish(subscriptionBlock)` */
-    var namedSubscriptionBlocks = [String: SubscriptionBlock]()
+    /** Named subscription blocks to be called with optional value  on `publish(value: T)` */
+    private var namedSubscriptionBlocks = [String: SubscriptionBlock]()
 
     /** A collection of all subscription blocks */
     private var allSubscriptionBlocks = [SubscriptionBlock]()
 
-    /** The last value passed to `publish(value: T?)`, to be passed to a block upon subscription if `callsLast` is set to true */
-    var lastValue: T?
+    /** The last value passed to `publish(value: T)`, to be passed to a block upon subscription if `callsLast` is set to true */
+    private var lastValue: ParameterType?
 
     /** If set to true, blocks will be called with lastValue immediately upon subscription. Default value is true */
-    var callsLast = true
+    public var callsLast = true
 
     /** The number of times publish has been called */
     private var publishCount = 0
 
-    /** Initializes a Publink with any number of subscription blocks */
-    init() {
+    /** Initializes a Publink */
+    public init() {
         subscriptionBlocks = []
     }
 
     /** Called by subscriber, passing a SubscriptionBlock to be called with an optional value when publish(value: T?) is called */
-    mutating func subscribe(newSubscriptionBlock: SubscriptionBlock) {
+    public func subscribe(newSubscriptionBlock: SubscriptionBlock) {
 
         // Add subscription block
         subscriptionBlocks.append(newSubscriptionBlock)
@@ -50,7 +50,7 @@ struct Publink<T> {
     }
 
     /** Called by subscriber, passing a SubscriptionBlock to be called with an optional value when publish(value: T?) is called */
-    mutating func subscribeNamed(name: String, newSubscriptionBlock: SubscriptionBlock) {
+    public func subscribeNamed(name: String, newSubscriptionBlock: SubscriptionBlock) {
 
         // Add subscription block
         namedSubscriptionBlocks[name] = newSubscriptionBlock
@@ -64,13 +64,13 @@ struct Publink<T> {
     }
 
     /** Call to unsubscribe a particular subscription block */
-    mutating func unsubscribe(name: String) {
+    public func unsubscribe(name: String) {
         namedSubscriptionBlocks[name] = nil
         updateAllSubscriptionBlocks()
     }
 
     /** Called by publisher with optional value. Calls every block in subscriptionBlocks */
-    mutating func publish(value: T) {
+    public func publish(value: ParameterType) {
 
         // Increment publishCount
         publishCount += 1
@@ -85,7 +85,7 @@ struct Publink<T> {
 
     }
 
-    private mutating func updateAllSubscriptionBlocks() {
+    private func updateAllSubscriptionBlocks() {
 
         // Update all blocks to subscription blocks
         allSubscriptionBlocks = subscriptionBlocks
@@ -101,9 +101,9 @@ struct Publink<T> {
 
         // Call new subscription block with lastValue is callsLast is set to true
         if callsLast && publishCount > 0 {
-            subscriptionBlock(lastValue)
+            subscriptionBlock(lastValue!)
         }
-
+        
     }
-
+    
 }
