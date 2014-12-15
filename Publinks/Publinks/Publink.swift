@@ -103,7 +103,7 @@ public class Publink<ParameterType> {
         if callsLast && publishCount > 0 {
             subscriptionBlock(lastValue!)
         }
-        
+
     }
-    
+
 }
