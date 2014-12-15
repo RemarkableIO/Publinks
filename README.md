@@ -1,10 +1,10 @@
 # Publinks!
 
-Publinks is a dead simple implementation of the publish-subscribe pattern in Swift, for those times when ReactiveCocoa is just a bit too heavy.
+Publinks is a simple and safe implementation of the publish-subscribe pattern in Swift.
 
 # Example
 
-Publinks can be used anywhere, but I like to use them on ViewModels to be able to tell Views when to update:
+Publinks can be used anywhere for broadcasting a value or optional value to a set of subscribers. You can find some example `Publinks-Example.playground`. Please note that you must open the playground from within the Xcode project and build both the module and `Publinks-Example` targets for the playground.
 
 `ViewModel` holds the publink to which `MyTableViewCell` will subscribe.`ViewModel` holds a reference to the `Model`. Once this model has been set, we want to format data and publish the `ViewModel` to publink subscribers.
 ```
