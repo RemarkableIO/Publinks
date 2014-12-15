@@ -1,10 +1,10 @@
 # Publinks!
 
-Publinks is a simple and safe implementation of the publish-subscribe pattern in Swift.
+Publinks is a simple and safe implementation of the publish-subscribe pattern in Swift. They can be used anywhere for broadcasting a value or optional value to a set of subscribers.
 
 ## Examples
 
-Publinks can be used anywhere for broadcasting a value or optional value to a set of subscribers. You can find some example `Publinks-Example.playground`. Please note that you must open the playground from within the Xcode project and build both the module and `Publinks-Example` targets for the playground.
+Below are two examples of how you can use a Publink to broadcast an optional value. You can find more examples in `Publinks-Example.playground`. Please note that you must open the playground from within the Xcode project and build both the module and `Publinks-Example` targets for the playground.
 
 ### Explicitly unwrapped type
 
