@@ -5,6 +5,12 @@
 //  Copyright (c) 2014 Giles Van Gruisen. All rights reserved.
 //
 
+infix operator >>> { associativity left }
+
+public func >>><T>(publink: Publink<T>, subscriptionBlock: T -> ()) {
+    publink.subscribe(subscriptionBlock)
+}
+
 /** Performs subscription blocks with a value upon calling `publish(value: T)` with value of the type set upon initialization. */
 public class Publink<ParameterType> {
 
