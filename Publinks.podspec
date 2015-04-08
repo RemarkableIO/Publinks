@@ -1,13 +1,14 @@
-Pod::Spec.new do |s|
-  s.name               = "Publinks"
-  s.version            = "0.0.1"
-  s.summary            = "Publinks is dead simple publish-subscribe in Swift"
-  s.homepage           = "https://github.com/gilesvangruisen/Publinks"
-  s.license            = { :type => "MIT", :file => "LICENSE" }
-  s.author             = { "Giles Van Gruisen " => "giles@vangruisen.com" }
-  s.social_media_url   = "http://twitter.com/gilesvangruisen"
-  s.platform           = :ios, "7.0"
-  s.source             = { :git => "https://github.com/gilesvangruisen/Publinks.git", :tag => "0.0.1" }
-  s.source_files       = "src/**/*.{swift}"
-  s.requires_arc       = true
+Pod::Spec.new do |spec|
+  spec.name = 'Publinks'
+  spec.version = '0.1.0'
+  spec.summary = 'Safe, simple publish-subscribe in Swift'
+  spec.homepage = 'https://github.com/remarkableio/Publinks'
+  spec.license = { :type => 'MIT', :file => 'LICENSE' }
+  spec.author = {
+    'Giles Van Gruisen' => 'giles@vangruisen.com',
+  }
+  spec.source = { :git => 'https://github.com/remarkableio/Publinks.git', :tag => "v#{spec.version}" }
+  spec.source_files = 'Source/**/*.{h,swift}'
+  spec.requires_arc = true
+  spec.ios.deployment_target = '8.0'
 end
