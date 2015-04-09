@@ -8,7 +8,7 @@ Pod::Spec.new do |spec|
     'Giles Van Gruisen' => 'giles@vangruisen.com',
   }
   spec.source = { :git => 'https://github.com/remarkableio/Publinks.git', :tag => "v#{spec.version}" }
-  spec.source_files = 'Source/**/*.{h,swift}'
+  spec.source_files = '**/*.{h,swift}'
   spec.requires_arc = true
   spec.ios.deployment_target = '8.0'
 end
