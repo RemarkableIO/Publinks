@@ -2,7 +2,6 @@
 
 import Publinks
 
-
 // MARK: Publink with String value type
 var stringPublink = Publink<String>()
 
